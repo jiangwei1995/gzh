@@ -10,7 +10,7 @@ app.post('/gzh/tools/msg', (req, res) => {
     });
 });
 app.get('/gzh/tools/msg', async (req, res) => {
-    res.send(result.access_token);
+    res.send(req.query.echostr);
 });
 
 app.listen(3000, () => {
