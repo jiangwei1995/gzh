@@ -8,7 +8,7 @@ app.use(express.urlencoded());
 app.use(xmlparser());
 app.post("/gzh/tools/msg", (req, res) => {
     const { signature, timestamp, nonce } = req.query || {};
-    const sign = checkSignature(signature, timestamp, nonce, token);
+    const sign = checkSignature(timestamp, nonce, token);
     if (sign !== signature) {
         throw new Error("验签失败");
     }
@@ -20,7 +20,7 @@ app.post("/gzh/tools/msg", (req, res) => {
 app.get("/gzh/tools/msg", async (req, res) => {
     const { signature, timestamp, nonce, echostr } = req.query || {};
     let token = "111";
-    const sign = checkSignature(signature, timestamp, nonce, token);
+    const sign = checkSignature(timestamp, nonce, token);
     if (sign === signature) {
         res.send(echostr);
     } else {
