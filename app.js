@@ -1,9 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const xmlparser = require("express-xml-bodyparser");
 const { Gzh, checkSignature } = require("tencent-wx-sdk");
 const app = express();
 app.use(bodyParser.json());
-app.post('/gzh/tools/msg', (req, res) => {
+app.use(express.urlencoded());
+app.use(xmlparser());
+app.post("/gzh/tools/msg", (req, res) => {
     const { signature, timestamp, nonce } = req.query || {};
     const flag = checkSignature(signature, timestamp, nonce, token);
     if(!flag) {
@@ -14,7 +17,7 @@ app.post('/gzh/tools/msg', (req, res) => {
         error: 0
     });
 });
-app.get('/gzh/tools/msg', async (req, res) => {
+app.get("/gzh/tools/msg", async (req, res) => {
     const { signature, timestamp, nonce, echostr } = req.query || {};
     let token = "111";
     const flag = checkSignature(signature, timestamp, nonce, token);
